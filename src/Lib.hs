@@ -47,25 +47,25 @@ masDeUnaHabilidad = filter ((>1).length.habilidades)
 
 -- 3)
 
-laMente :: Int -> Personaje -> Personaje
+laMente :: Int -> Gema
 laMente = quitarEnergia
 
 quitarEnergia :: Int -> Personaje -> Personaje
 quitarEnergia cantidad personaje = personaje {energia = energia personaje - cantidad}
 
-elAlma :: String -> Personaje -> Personaje
+elAlma :: String -> Gema
 elAlma habilidad = quitarEnergia 10 . eliminarUnaHabilidadDeseada habilidad
 
 eliminarUnaHabilidadDeseada :: String -> Personaje -> Personaje
 eliminarUnaHabilidadDeseada habilidad personaje = personaje {habilidades = filter (/=habilidad) (habilidades personaje)}
 
-elEspacio :: String -> Personaje -> Personaje
+elEspacio :: String -> Gema
 elEspacio planeta = quitarEnergia 20 . transportarAlPlaneta planeta
 
 transportarAlPlaneta :: String -> Personaje -> Personaje
 transportarAlPlaneta planeta personaje = personaje {planeta = planeta}
 
-elPoder :: Personaje -> Personaje
+elPoder :: Gema
 elPoder personaje = (eliminarHabilidades. quitarEnergia (energia personaje))  personaje
 
 eliminarHabilidades :: Personaje -> Personaje
@@ -73,7 +73,7 @@ eliminarHabilidades personaje   | ((<=2).length.habilidades) personaje = persona
                                 | otherwise = personaje
 
 
-elTiempo :: Personaje -> Personaje
+elTiempo :: Gema
 elTiempo  = quitarEnergia 50 . reducirEdadALaMitad 
 
 reducirEdadALaMitad :: Personaje -> Personaje
@@ -83,8 +83,20 @@ gemaLoca :: Gema -> Gema
 gemaLoca gemas = gemas.gemas
 
 
+-- 4)
 
+guanteletePunto4 :: Guantelete
+guanteletePunto4 = UnGuantelete {
+    gemas = [elTiempo , (elAlma "usar Mjolnir") , gemaLoca elPoder],
+    material = "goma"
+}
 
+-- 5)
+
+utilizar :: [Gema] -> Personaje -> Personaje
+utilizar gemas personaje = foldr ($) personaje gemas
+
+personajePrueba :: Personaje
 personajePrueba = UnPersonaje {
     edad = 20,
     energia = 60,
