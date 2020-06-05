@@ -31,4 +31,16 @@ guanteleteCompleto guantelete = ((==6).length.gemas) guantelete && ((=="uru").ma
 
 reducirMitad :: Universo -> Universo
 reducirMitad universo = take (length universo `div` 2) universo
-                             
+
+
+-- 2)
+
+aptoParaPendex :: Universo -> Bool
+aptoParaPendex = any $ (<=45).edad
+
+energiaTotal :: Universo -> Int
+energiaTotal = sum . map energia . masDeUnaHabilidad
+
+masDeUnaHabilidad :: Universo -> Universo
+masDeUnaHabilidad = filter ((>1).length.habilidades)
+
